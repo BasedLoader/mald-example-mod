@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("com.maldloader.gradle.vanilla") version "0.3.2-TEST1"
+    id("com.maldloader.gradle.vanilla") version "0.3.3"
 }
 
 group 'org.example'
@@ -43,10 +43,12 @@ dependencies {
 minecraft {
     latestSnapshot()
 
+    //If you wanted to add a Static Injector, you would uncomment this line and point it to your static injector file
+    //staticInjectors("src/main/resources/interfaces.si")
+
+    // This HAS to be at the bottom. Anything after this which tries to change settings will fail because minecraft would of already being resolved
     runs {
         server()
         client()
     }
-//    If you wanted to add a Static Injector, you would uncomment this line and point it to your static injector file
-//    staticInjectors("src/main/resources/interfaces.si")
 }
