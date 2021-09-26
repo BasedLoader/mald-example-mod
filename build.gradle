@@ -1,0 +1,52 @@
+plugins {
+    id("java")
+    id("com.maldloader.gradle.vanilla") version "0.3.2-TEST1"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url = "https://maven.fabricmc.net/" }
+    maven { url = "https://maven.minecraftforge.net/" }
+    maven { url = "https://libraries.minecraft.net/" }
+}
+configurations {
+    includeRuntime {} // todo add JiJ
+    implementation.extendsFrom(includeRuntime)
+}
+
+dependencies {
+    //TODO: Mald Loader buildscript problems cause this to be needed
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'org.ow2.asm:asm:9.2'
+    implementation 'org.ow2.asm:asm-tree:9.2'
+    includeRuntime('net.fabricmc:sponge-mixin:0.10.0+mixin.0.8.4.snapshot') {
+        exclude module: 'launchwrapper'
+        exclude module: 'guava'
+        exclude module: 'asm'
+        exclude module: 'asm-tree'
+    }
+
+    implementation "com.maldloader:MaldLoader:0.2"
+    includeRuntime 'com.google.code.gson:gson:2.8.8'
+    includeRuntime ("com.maldloader:minecraft:0.2") {
+        exclude module: "MaldLoader"
+    }
+    includeRuntime("com.maldloader:mixin:0.2") {
+        exclude module: "MaldLoader"
+    }
+}
+
+minecraft {
+    latestSnapshot()
+
+    runs {
+        server()
+        client()
+    }
+//    If you wanted to add a Static Injector, you would uncomment this line and point it to your static injector file
+//    staticInjectors("src/main/resources/interfaces.si")
+}

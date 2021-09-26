@@ -1,0 +1,5 @@
+# Basic Ignoring of all junk produced by gradle and IDE's
+.idea/
+run/
+.gradle/
+build/
